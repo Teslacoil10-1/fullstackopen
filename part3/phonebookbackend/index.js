@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const PORT = 8080
 
-const hardCodedValues = [
+let hardCodedValues = [
     { 
       "id": "1",
       "name": "Arto Hellas", 
@@ -27,6 +27,27 @@ const hardCodedValues = [
 
 app.get('/api/persons',(req,res)=>{
     res.json(hardCodedValues)
+})
+
+app.get('/info',(req,res)=>{
+    let len = hardCodedValues.length
+    let time = new Date
+
+    res.send(`
+        <p>phonebook has info for ${len} people</p>
+        <p>${time}</p>
+        `)
+})
+
+app.get('/api/persons/:id',(req, res)=>{
+    const id = req.params.id 
+    
+    
+    if(!id){
+        res.status(404)
+    }
+
+    res.json(hardCodedValues.find(item => item.id === id))
 })
 
 app.listen(PORT,()=>{
