@@ -1,0 +1,17 @@
+.message{
+    padding: 10px;
+    border: 2px solid greenyellow;
+    background: rgba(71, 255, 47, 0.321);
+    border-radius: 10px;
+    width: fit-content;
+}
+.error{
+    padding: 10px;
+    border: 2px solid rgb(255, 47, 47);
+    background: rgba(255, 47, 47, 0.321);
+    border-radius: 10px;
+    width: fit-content;
+}
+.hidden{
+    display: none;
+}
