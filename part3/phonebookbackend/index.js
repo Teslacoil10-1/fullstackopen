@@ -1,8 +1,10 @@
+// index.js
+
 const express = require('express')
 const app = express()
-const PORT = 8080
+const PORT = process.env.PORT || 8080
 const morgan = require('morgan')
-const cors = require('cors')
+const path = require('path')
 
 let hardCodedValues = [
     { 
@@ -27,12 +29,15 @@ let hardCodedValues = [
     }
 ]
 
+
+// middle ware
 app.use(express.json());
 morgan.token('body',(req,res)=>JSON.stringify(req.body))
 app.use(morgan(':method :url :status :response-time ms :body'))
-app.use(cors({
-    origin:'http://localhost:5173'
-}))
+app.use(express.static(path.join(__dirname,'dist')))
+
+//http meathods and endpoints
+
 
 
 app.get('/api/persons',(req,res)=>{
@@ -93,6 +98,14 @@ app.delete('/api/persons/:id',(req, res)=>{
 })
 
 
-app.listen(PORT,()=>{
-    console.log(`running on port ${PORT}`)
-})
+app.get('/{*path}', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
+
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, () => {
+        console.log(`running on port ${PORT}`)
+    })
+}
+
+module.exports = app

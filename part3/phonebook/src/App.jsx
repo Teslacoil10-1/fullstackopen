@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import './app.css'
 
-const baseUrl = 'http://localhost:8080/api/persons'
+const baseUrl = '/api/persons'
 const App = () => {
   
   const [persons, setPersons] = useState([]) 
