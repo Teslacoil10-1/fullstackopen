@@ -25,8 +25,32 @@ let hardCodedValues = [
     }
 ]
 
+app.use(express.json());
+
 app.get('/api/persons',(req,res)=>{
     res.json(hardCodedValues)
+})
+
+app.post('/api/persons',(req,res)=>{
+    const body = req.body
+
+    if (!body || !body.name || !body.number){
+        return res.status(400)
+    }
+    
+    if(hardCodedValues.some(user => user.name.toLowerCase() === body.name.toLowerCase())){
+        return res.status(400).json({
+            error:'name must be unique'
+        })
+    }
+    const newPerson = {
+        id:String(Math.floor(Math.random() * 100000)),
+        name:body.name,
+        number:body.number
+    }
+
+    hardCodedValues = [...hardCodedValues, newPerson]
+    res.status(201).json(newPerson)
 })
 
 app.get('/info',(req,res)=>{
@@ -49,6 +73,17 @@ app.get('/api/persons/:id',(req, res)=>{
 
     res.json(hardCodedValues.find(item => item.id === id))
 })
+
+app.delete('/api/persons/:id',(req, res)=>{
+    let id = req.params.id 
+
+    hardCodedValues = hardCodedValues.filter(item=>item.id !== id)
+
+    console.log(hardCodedValues)
+    res.status(204).end()
+  
+})
+
 
 app.listen(PORT,()=>{
     console.log(`running on port ${PORT}`)
