@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import './app.css'
 
-const baseUrl = 'http://localhost:3001/persons'
+const baseUrl = 'http://localhost:8080/api/persons'
 const App = () => {
   
   const [persons, setPersons] = useState([]) 
@@ -82,8 +82,9 @@ const App = () => {
     
   }
   const FilteredPersons = persons.filter((person)=>
-    person.name.includes(newFilter)
+    person.name.toLowerCase().includes(newFilter)
   )
+
   const deletePerson = (id,name) =>{
     if(window.confirm(`delete ${name}`)){
       axios.delete(`${baseUrl}/${id}`)

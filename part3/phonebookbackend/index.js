@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const PORT = 8080
 const morgan = require('morgan')
+const cors = require('cors')
 
 let hardCodedValues = [
     { 
@@ -27,9 +28,12 @@ let hardCodedValues = [
 ]
 
 app.use(express.json());
-
 morgan.token('body',(req,res)=>JSON.stringify(req.body))
 app.use(morgan(':method :url :status :response-time ms :body'))
+app.use(cors({
+    origin:'http://localhost:5173'
+}))
+
 
 app.get('/api/persons',(req,res)=>{
     res.json(hardCodedValues)
