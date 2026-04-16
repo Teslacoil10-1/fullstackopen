@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const PORT = 8080
+const morgan = require('morgan')
 
 let hardCodedValues = [
     { 
@@ -27,6 +28,9 @@ let hardCodedValues = [
 
 app.use(express.json());
 
+morgan.token('body',(req,res)=>JSON.stringify(req.body))
+app.use(morgan(':method :url :status :response-time ms :body'))
+
 app.get('/api/persons',(req,res)=>{
     res.json(hardCodedValues)
 })
@@ -37,7 +41,7 @@ app.post('/api/persons',(req,res)=>{
     if (!body || !body.name || !body.number){
         return res.status(400)
     }
-    
+
     if(hardCodedValues.some(user => user.name.toLowerCase() === body.name.toLowerCase())){
         return res.status(400).json({
             error:'name must be unique'
