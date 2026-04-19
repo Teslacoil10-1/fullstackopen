@@ -89,7 +89,7 @@ const App = () => {
     if(window.confirm(`delete ${name}`)){
       axios.delete(`${baseUrl}/${id}`)
       .then(() =>{
-        setPersons(persons.filter(p => p.id !== id))
+        setPersons(persons.filter(p => p._id !== id))
       })
     }
   }
@@ -119,9 +119,9 @@ const App = () => {
       <h2>Numbers</h2>
 
       {FilteredPersons.map(person => 
-      <div key={person.id}>
+      <div key={person._id}>
         <p>{person.name} {person.number} </p>
-        <button onClick={() => deletePerson(person.id, person.name)}>delete</button>
+        <button onClick={() => deletePerson(person._id, person.name)}>delete</button>
       </div>
      )}
       
